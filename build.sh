@@ -8,7 +8,7 @@ else
   MAVEN_CMD="clean install --batch-mode"
 fi
 
-if [[ $INPUT_QUIET ]]; then
+if [[ $INPUT_QUIET = "true" ]]; then
   QUIET="--quiet"
 fi
 
