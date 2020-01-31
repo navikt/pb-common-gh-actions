@@ -1,0 +1,14 @@
+name: 'Compile project action'
+description: 'Run maven/gradle to compile project'
+inputs:
+  skip_tests:
+    description: 'Skip tests during build'
+    required: false
+    default: "false"
+  quiet:
+    description: 'Reduce console output during build'
+    required: false
+    default: "true"
+runs:
+  using: docker
+  image: Dockerfile
