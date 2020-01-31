@@ -9,6 +9,10 @@ inputs:
     description: 'Reduce console output during build'
     required: false
     default: "true"
+  maven_settings_file:
+    description: 'Relative path to maven settings xml file'
+    required: false
+    default: "settings.xml"
 runs:
   using: docker
   image: Dockerfile
