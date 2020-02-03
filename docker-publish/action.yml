@@ -1,0 +1,19 @@
+name: 'Publish docker image action'
+description: 'Build and publish docker image to github package repository'
+inputs:
+  tag_latest:
+    description: 'Tag and push latest image. Defaults to true only on master'
+    required: false
+  tag_name:
+    description: 'Override tag name. Default format is YYYYMMDDHHMMSS-{First 7 characters of SHA}'
+    required: false
+  github_token:
+    description: 'Github access token'
+    required: true
+  export_image:
+    description: 'Pass on image tag to subsequent steps'
+    required: false
+    default: "true"
+runs:
+  using: docker
+  image: Dockerfile

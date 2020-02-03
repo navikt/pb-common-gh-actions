@@ -1,2 +1,2 @@
-# build-project-action
-Github action for building maven/gradle project.
+# Personbruker common github actions
+Github actions for common workflow steps.
