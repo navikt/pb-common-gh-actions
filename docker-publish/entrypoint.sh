@@ -19,7 +19,7 @@ IMAGE_LATEST="$IMAGE_BASE:latest"
 
 
 # Set basic auth
-#echo $INPUT_GITHUB_TOKEN | docker login docker.pkg.github.com -u $GITHUB_REPOSITORY --password-stdin
+echo $INPUT_GITHUB_TOKEN | docker login docker.pkg.github.com -u $GITHUB_REPOSITORY --password-stdin
 
 # Build and push docker images
 if $TAG_LATEST; then

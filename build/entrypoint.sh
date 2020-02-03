@@ -16,6 +16,10 @@ if [[ -f $INPUT_MAVEN_SETTINGS_FILE ]]; then
   MAVEN_SETTINGS="-s $INPUT_MAVEN_SETTINGS_FILE"
 fi
 
+if [[ ! -z "$INPUT_GITHUB_TOKEN" ]]; then
+  export GITHUB_TOKEN="$INPUT_GITHUB_TOKEN"
+fi
+
 if [[ -f "gradlew" ]]; then
   ./gradlew $GRADLE_CMD $QUIET
 elif [[ -f "build.gradle" || -f "build.gradle.kts" ]]; then

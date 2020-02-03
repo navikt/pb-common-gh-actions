@@ -13,6 +13,9 @@ inputs:
     description: 'Relative path to maven settings xml file'
     required: false
     default: "settings.xml"
+  github_token:
+      description: 'Github access token. Required if accessing github package repository during build.'
+      required: false
 runs:
   using: docker
   image: Dockerfile
