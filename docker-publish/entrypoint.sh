@@ -17,7 +17,7 @@ fi
 # Create image names
 APP_NAME=$(echo $GITHUB_REPOSITORY | rev | cut -f1 -d"/" | rev )
 IMAGE_BASE="docker.pkg.github.com/$GITHUB_REPOSITORY/$APP_NAME"
-IMAGE_TAGGED="$IMAGE_BASE:$TAG"
+IMAGE_TAGGED="$IMAGE_BASE:$INPUT_TAG_NAME"
 IMAGE_LATEST="$IMAGE_BASE:latest"
 
 
