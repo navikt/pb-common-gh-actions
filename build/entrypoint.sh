@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/bin/sh
 
 if [[ $INPUT_SKIP_TESTS = "true" ]]; then
   GRADLE_CMD="clean assemble"

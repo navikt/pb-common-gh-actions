@@ -1,3 +1,5 @@
+#!/bin/sh
+
 # Set docker tag following default format unless overridden
 if [[ -z "$INPUT_TAG_NAME" ]]; then
   INPUT_TAG_NAME="$(git log -1 --pretty='%ad' --date=format:'%Y%m%d%H%M%S')-$(git log -1 --pretty='%h')"
@@ -12,6 +14,7 @@ else
   TAG_LATEST=false
 fi
 
+# Create image names
 APP_NAME=S$(echo $GITHUB_REPOSITORY | rev | cut -f1 -d"/" | rev )
 IMAGE_BASE="docker.pkg.github.com/$GITHUB_REPOSITORY/$APP_NAME"
 IMAGE_TAGGED="$IMAGE_BASE:$TAG"
@@ -31,6 +34,7 @@ else
   docker push $IMAGE_TAGGED
 fi
 
+# Export IMAGE_TAGGED as IMAGE
 if [[ $INPUT_EXPORT_IMAGE = "true" ]]; then
   echo "::set-env name=IMAGE::$IMAGE_TAGGED"
 fi
