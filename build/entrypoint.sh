@@ -1,5 +1,9 @@
 #!/bin/sh
 
+if [[ $INPUT_USE_BUILD_SCRIPT == "true" && -f $INPUT_BUILD_SCRIPT_NAME ]]; then
+  ./$INPUT_BUILD_SCRIPT_NAME
+fi
+
 if [[ $INPUT_SKIP_TESTS = "true" ]]; then
   GRADLE_CMD="clean assemble"
   MAVEN_CMD="clean install -DskipTests --batch-mode"
@@ -29,5 +33,5 @@ elif [[ -f "mavenw" ]]; then
 elif [[ -f "pom.xml" ]]; then
   mvn $MAVEN_CMD $QUIET $MAVEN_SETTINGS
 else
-  echo "This doesn't look like a maven or gradle project."
+  echo "This doesn't look like a maven or gradle project. Alternatively provide a 'build.sh' build script."
 fi

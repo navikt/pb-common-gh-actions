@@ -14,8 +14,16 @@ inputs:
     required: false
     default: "settings.xml"
   github_token:
-      description: 'Github access token. Required if accessing github package repository during build.'
-      required: false
+    description: 'Github access token. Required if accessing github package repository during build.'
+    required: false
+  use_build_script:
+    description: 'Use user-defined build file if present.'
+    required: false
+    default: "true"
+  build_script_name:
+    description: 'Name of user-defined build file if present'
+    required: false
+    default: 'build.sh'
 runs:
   using: docker
   image: Dockerfile
