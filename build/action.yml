@@ -8,7 +8,7 @@ inputs:
   quiet:
     description: 'Reduce console output during build'
     required: false
-    default: "true"
+    default: "false"
   maven_settings_file:
     description: 'Relative path to maven settings xml file'
     required: false
