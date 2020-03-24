@@ -1,8 +1,13 @@
 #!/bin/sh
-
+ls -la
 if [[ $INPUT_USE_BUILD_SCRIPT == "true" && -f $INPUT_BUILD_SCRIPT_NAME ]]; then
   ./$INPUT_BUILD_SCRIPT_NAME
+  exit 0
+else
+  echo 'no build script'
 fi
+
+exit 0
 
 if [[ $INPUT_SKIP_TESTS = "true" ]]; then
   GRADLE_CMD="clean assemble"
