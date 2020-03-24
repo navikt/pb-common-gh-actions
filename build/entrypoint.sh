@@ -2,6 +2,7 @@
 
 if [[ $INPUT_USE_BUILD_SCRIPT == "true" && -f $INPUT_BUILD_SCRIPT_NAME ]]; then
   ./$INPUT_BUILD_SCRIPT_NAME
+  exit 0
 fi
 
 if [[ $INPUT_SKIP_TESTS = "true" ]]; then
