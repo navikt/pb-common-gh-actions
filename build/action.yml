@@ -25,5 +25,45 @@ inputs:
     required: false
     default: 'build.sh'
 runs:
-  using: docker
-  image: Dockerfile
+  using: "composite"
+  steps:
+    - shell: "bash"
+      run: |
+        if [[ ${{ inputs.use_build_script }} == "true" && -f ${{ inputs.build_script_name }} ]]; then
+          ./${{ inputs.build_script_name }}
+          exit $?
+        fi
+
+        if [[ ${{ inputs.skip_tests }} = "true" ]]; then
+          GRADLE_CMD="clean assemble"
+          MAVEN_CMD="clean install -DskipTests --batch-mode"
+        else
+          GRADLE_CMD="clean build"
+          MAVEN_CMD="clean install --batch-mode"
+        fi
+
+        if [[ ${{ inputs.quiet }} = "true" ]]; then
+          QUIET="--quiet"
+        fi
+
+        if [[ -f ${{ inputs.maven_settings_file }} ]]; then
+          MAVEN_SETTINGS="-s ${{ inputs.maven_settings_file }}"
+        fi
+
+        if [[ ! -z ${{ inputs.github_token }} ]]; then
+          export GITHUB_TOKEN=${{ inputs.github_token }}
+          export ORG_GRADLE_PROJECT_githubUser="x-access-token"
+          export ORG_GRADLE_PROJECT_githubPassword=${{ inputs.github_token }}
+        fi
+
+        if [[ -f "gradlew" ]]; then
+          ./gradlew $GRADLE_CMD $QUIET
+        elif [[ -f "build.gradle" || -f "build.gradle.kts" ]]; then
+          gradle $GRADLE_CMD $QUIET
+        elif [[ -f "mavenw" ]]; then
+          ./mavenw $MAVEN_CMD $QUIET $MAVEN_SETTINGS
+        elif [[ -f "pom.xml" ]]; then
+          mvn $MAVEN_CMD $QUIET $MAVEN_SETTINGS
+        else
+          echo "This doesn't look like a maven or gradle project. Alternatively provide a 'build.sh' build script."
+        fi
