@@ -1,0 +1,34 @@
+name: 'Determine variables for use by actions/cache'
+description: 'Build and publish docker image to github package repository'
+runs:
+  using: "composite"
+  steps:
+    - shell: "bash"
+      run: |
+        # Set variables path based on project build system
+        if [[ -f "build.gradle" || -f "build.gradle.kts" ]]; then
+          KEY_HASHED_PATH='**/*.gradle*'
+          KEY_NAMESPACE='-gradle-'
+          CACHED_PATHS='~/.gradle/caches
+        ~/.gradle/wrapper'
+        elif [[ -f "pom.xml" ]]; then
+          KEY_HASHED_PATH='**/pom.xml'
+          KEY_NAMESPACE='-maven-'
+          CACHED_PATHS='~/.m2/repository'
+        elif [[ -f "package-lock.json" ]]; then
+          KEY_HASHED_PATH='**/package-lock.json'
+          KEY_NAMESPACE='-node-'
+          CACHED_PATHS='~/.npm'
+        else
+          echo 'Unable to determine build system'
+          exit 1
+        fi
+
+        CACHED_PATHS="${CACHED_PATHS//'%'/'%25'}"
+        CACHED_PATHS="${CACHED_PATHS//$'\n'/'%0A'}"
+        CACHED_PATHS="${CACHED_PATHS//$'\r'/'%0D'}"
+
+        # Make variables accessible to subsequent workflows
+        echo "::set-env name=CACHE_PATHS::$CACHED_PATHS"
+        echo "::set-env name=CACHE_KEY_HASHED_PATH::$KEY_HASHED_PATH"
+        echo "::set-env name=CACHE_KEY_NAMESPACE::$KEY_NAMESPACE"

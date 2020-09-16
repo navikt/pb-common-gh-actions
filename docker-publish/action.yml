@@ -4,6 +4,7 @@ inputs:
   tag_latest:
     description: 'Tag and push latest image. Defaults to true only on master'
     required: false
+    default: "false"
   tag_name:
     description: 'Override tag name. Default format is YYYYMMDDHHMMSS-{First 7 characters of SHA}'
     required: false
