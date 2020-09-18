@@ -34,7 +34,8 @@ runs:
           echo exit $?
           exit $?
         else
-          ls -la
+          if [[ $INPUT_USE_BUILD_SCRIPT == "true" ]] echo use build script
+          if [[ -f $INPUT_BUILD_SCRIPT_NAME ]] echo input found
           echo none found
         fi
 
