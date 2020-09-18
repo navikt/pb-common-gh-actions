@@ -34,8 +34,8 @@ runs:
           echo exit $?
           exit $?
         else
-          if [[ $INPUT_USE_BUILD_SCRIPT == "true" ]] echo use build script
-          if [[ -f $INPUT_BUILD_SCRIPT_NAME ]] echo input found
+          if [[ $INPUT_USE_BUILD_SCRIPT == "true" ]]; then echo use build script; fi
+          if [[ -f $INPUT_BUILD_SCRIPT_NAME ]]; then echo input found; fi
           echo none found
         fi
 
