@@ -31,7 +31,10 @@ runs:
       run: |
         if [[ $INPUT_USE_BUILD_SCRIPT == "true" && -f $INPUT_BUILD_SCRIPT_NAME ]]; then
           ./$INPUT_BUILD_SCRIPT_NAME
+          echo exit $?
           exit $?
+        else
+          echo none found
         fi
 
         if [[ $INPUT_SKIP_TESTS = "true" ]]; then
