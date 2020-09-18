@@ -29,19 +29,12 @@ runs:
   steps:
     - shell: "bash"
       run: |
-        if [[ $INPUT_USE_BUILD_SCRIPT == "true" && -f $INPUT_BUILD_SCRIPT_NAME ]]; then
-          ./$INPUT_BUILD_SCRIPT_NAME
-          echo exit $?
+        if [[ ${{ inputs.use_build_script }} == "true" && -f ${{ inputs.build_script_name }} ]]; then
+          ./${{ inputs.build_script_name }}
           exit $?
-        else
-          echo one: $INPUT_USE_BUILD_SCRIPT
-          echo two: $INPUT_BUILD_SCRIPT_NAME
-          if [[ $INPUT_USE_BUILD_SCRIPT == "true" ]]; then echo use build script; fi
-          if [[ -f $INPUT_BUILD_SCRIPT_NAME ]]; then echo input found; fi
-          echo none found
         fi
 
-        if [[ $INPUT_SKIP_TESTS = "true" ]]; then
+        if [[ ${{ inputs.skip_tests }} = "true" ]]; then
           GRADLE_CMD="clean assemble"
           MAVEN_CMD="clean install -DskipTests --batch-mode"
         else
@@ -49,18 +42,18 @@ runs:
           MAVEN_CMD="clean install --batch-mode"
         fi
 
-        if [[ $INPUT_QUIET = "true" ]]; then
+        if [[ ${{ inputs.quiet }} = "true" ]]; then
           QUIET="--quiet"
         fi
 
-        if [[ -f $INPUT_MAVEN_SETTINGS_FILE ]]; then
-          MAVEN_SETTINGS="-s $INPUT_MAVEN_SETTINGS_FILE"
+        if [[ -f ${{ inputs.maven_settings_file }} ]]; then
+          MAVEN_SETTINGS="-s ${{ inputs.maven_settings_file }}"
         fi
 
-        if [[ ! -z "$INPUT_GITHUB_TOKEN" ]]; then
-          export GITHUB_TOKEN="$INPUT_GITHUB_TOKEN"
+        if [[ ! -z ${{ inputs.github_token }} ]]; then
+          export GITHUB_TOKEN=${{ inputs.github_token }}
           export ORG_GRADLE_PROJECT_githubUser="x-access-token"
-          export ORG_GRADLE_PROJECT_githubPassword="$INPUT_GITHUB_TOKEN"
+          export ORG_GRADLE_PROJECT_githubPassword=${{ inputs.github_token }}
         fi
 
         if [[ -f "gradlew" ]]; then
