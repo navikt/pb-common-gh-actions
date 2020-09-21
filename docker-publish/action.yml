@@ -4,6 +4,7 @@ inputs:
   tag_latest:
     description: 'Tag and push latest image. Defaults to true only on master'
     required: false
+    default: "false"
   tag_name:
     description: 'Override tag name. Default format is YYYYMMDDHHMMSS-{First 7 characters of SHA}'
     required: false
@@ -15,5 +16,37 @@ inputs:
     required: false
     default: "true"
 runs:
-  using: docker
-  image: Dockerfile
+  using: "composite"
+  steps:
+    - shell: "bash"
+      run: |
+        # Set docker tag following default format unless overridden
+        if [[ -z "${{ inputs.tag_name }}" ]]; then
+          TAG_NAME="$(git log -1 --pretty='%ad' --date=format:'%Y%m%d%H%M%S')-$(git log -1 --pretty='%h')"
+        else
+          TAG_NAME="${{ inputs.tag_name }}"
+        fi
+
+        # Create image names
+        APP_NAME=$(echo $GITHUB_REPOSITORY | rev | cut -f1 -d"/" | rev )
+        IMAGE_BASE="docker.pkg.github.com/$GITHUB_REPOSITORY/$APP_NAME"
+        IMAGE_TAGGED="$IMAGE_BASE:$TAG_NAME"
+        IMAGE_LATEST="$IMAGE_BASE:latest"
+
+        # Set basic auth
+        echo ${{ inputs.github_token }} | docker login docker.pkg.github.com -u $GITHUB_REPOSITORY --password-stdin
+
+        # Build and push docker images
+        if [[ ${{ inputs.tag_latest }} = "true" ]]; then
+          docker build --tag $IMAGE_TAGGED --tag $IMAGE_LATEST .
+          docker push $IMAGE_TAGGED
+          docker push $IMAGE_LATEST
+        else
+          docker build --tag $IMAGE_TAGGED .
+          docker push $IMAGE_TAGGED
+        fi
+
+        # Export IMAGE_TAGGED as IMAGE
+        if [[ ${{ inputs.export_image }} = "true" ]]; then
+          echo "::set-env name=IMAGE::$IMAGE_TAGGED"
+        fi
