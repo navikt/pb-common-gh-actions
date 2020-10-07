@@ -23,8 +23,6 @@ fi
 
 if [[ ! -z "$INPUT_GITHUB_TOKEN" ]]; then
   export GITHUB_TOKEN="$INPUT_GITHUB_TOKEN"
-  export ORG_GRADLE_PROJECT_githubUser="x-access-token"
-  export ORG_GRADLE_PROJECT_githubPassword="$INPUT_GITHUB_TOKEN"
 fi
 
 if [[ -f "gradlew" ]]; then
