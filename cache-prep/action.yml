@@ -24,11 +24,9 @@ runs:
           exit 1
         fi
 
-        CACHED_PATHS="${CACHED_PATHS//'%'/'%25'}"
-        CACHED_PATHS="${CACHED_PATHS//$'\n'/'%0A'}"
-        CACHED_PATHS="${CACHED_PATHS//$'\r'/'%0D'}"
-
         # Make variables accessible to subsequent workflows
+        echo "CACHE_PATHS<<EOF" >> $GITHUB_ENV
         echo "CACHE_PATHS=$CACHED_PATHS" >> $GITHUB_ENV
+        echo "EOF" >> $GITHUB_ENV
         echo "CACHE_KEY_HASHED_PATH=$KEY_HASHED_PATH" >> $GITHUB_ENV
         echo "CACHE_KEY_NAMESPACE=$KEY_NAMESPACE" >> $GITHUB_ENV
