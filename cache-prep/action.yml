@@ -26,7 +26,7 @@ runs:
 
         # Make variables accessible to subsequent workflows
         echo "CACHE_PATHS<<EOF" >> $GITHUB_ENV
-        echo "CACHE_PATHS=$CACHED_PATHS" >> $GITHUB_ENV
+        echo "$CACHED_PATHS" >> $GITHUB_ENV
         echo "EOF" >> $GITHUB_ENV
         echo "CACHE_KEY_HASHED_PATH=$KEY_HASHED_PATH" >> $GITHUB_ENV
         echo "CACHE_KEY_NAMESPACE=$KEY_NAMESPACE" >> $GITHUB_ENV
