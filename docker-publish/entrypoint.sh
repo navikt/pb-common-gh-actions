@@ -26,5 +26,5 @@ fi
 
 # Export IMAGE_TAGGED as IMAGE
 if [[ $INPUT_EXPORT_IMAGE = "true" ]]; then
-  echo "::set-env name=IMAGE::$IMAGE_TAGGED"
+  echo "IMAGE=$IMAGE_TAGGED" >> $GITHUB_ENV
 fi
