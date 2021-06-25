@@ -5,8 +5,6 @@ if [[ $INPUT_USE_BUILD_SCRIPT == "true" && -f $INPUT_BUILD_SCRIPT_NAME ]]; then
   exit $?
 fi
 
-mvn -v
-
 if [[ $INPUT_SKIP_TESTS = "true" ]]; then
   GRADLE_CMD="clean assemble"
   MAVEN_CMD="clean install -DskipTests --batch-mode"
