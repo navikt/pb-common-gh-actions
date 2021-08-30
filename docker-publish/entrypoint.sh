@@ -7,12 +7,12 @@ fi
 
 # Create image names
 APP_NAME=$(echo $GITHUB_REPOSITORY | rev | cut -f1 -d"/" | rev )
-IMAGE_BASE="docker.pkg.github.com/$GITHUB_REPOSITORY/$APP_NAME"
+IMAGE_BASE="ghcr.io/$GITHUB_REPOSITORY/$APP_NAME"
 IMAGE_TAGGED="$IMAGE_BASE:$INPUT_TAG_NAME"
 IMAGE_LATEST="$IMAGE_BASE:latest"
 
 # Set basic auth
-echo $INPUT_GITHUB_TOKEN | docker login docker.pkg.github.com -u $GITHUB_REPOSITORY --password-stdin
+echo $INPUT_GITHUB_TOKEN | docker login ghcr.io -u $GITHUB_REPOSITORY --password-stdin
 
 # Build and push docker images
 if [[ $INPUT_TAG_LATEST = "true" ]]; then
